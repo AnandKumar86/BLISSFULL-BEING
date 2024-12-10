@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/datepicker.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>BlissFull Bieng</title>
+  </head>
+
+    <body>
+      <div class="inner-layer">
+          <div class="container">
+            <div class="row no-margin">
+                <div class="col-sm-7">
+                    <div class="content">
+                        <h1>"Reserve Your Path to Bliss: Book Your Slot Today!"</h1>
+                        <p>"Embark on your journey to bliss. Book your slot now and let's explore the path to your inner peace and fulfillment together."</p>
+                        <h2>For Help Call : 9999999999</h2>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-data">
+                        <div class="form-head">
+                            <h2>Connect Now</h2>
+                        </div>
+                        <div class="form-body">
+                            <div class="row form-row">
+                              <input type="text" placeholder="Enter Full name" class="form-control">
+                            </div>
+                            <div class="row form-row">
+                              <input type="text" placeholder="Enter Mobile Number" class="form-control">
+                            </div>
+                             <div class="row form-row">
+                              <input type="text" placeholder="Enter Email Adreess" class="form-control">
+                            </div>
+                           <div class="row form-row">
+                              <input id="dat" type="text" placeholder="Appointment Date" class="form-control">
+                            </div>
+                            
+                            <h6>Address Details</h6>
+
+                             <div class="row form-row">
+                                <div class="col-sm-6">
+                                   <input type="text" placeholder="Enter Area" class="form-control">
+                                </div>
+                                <div class="col-sm-6">
+                                   <input type="text" placeholder="Enter City" class="form-control">
+                                </div>
+                            </div>
+                             <div class="row form-row">
+                                <div class="col-sm-6">
+                                   <input type="text" placeholder="Enter State" class="form-control">
+                                </div>
+                                <div class="col-sm-6">
+                                   <input type="text" placeholder="Postal Code" class="form-control">
+                                </div>
+                            </div>
+
+                             <div class="row form-row">
+                               <button class="btn btn-success btn-appointment">
+                                 Book Now
+                               </button>
+                               
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+      </div>
+      
+    </body>
+  
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/bootstrap-datepicker.js"></script>
+
+    <script>
+      $(document).ready(function(){
+          $("#dat").datepicker();
+      })
+    </script>
+    <!-- In book.html -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+     
+      $("#dat").datepicker();
+
+      document.querySelector('.btn-appointment').addEventListener('click', async function(e) {
+          e.preventDefault();
+
+          const bookingData = {
+              name: document.querySelector("input[placeholder='Enter Full name']").value,
+              mobile: document.querySelector("input[placeholder='Enter Mobile Number']").value,
+              email: document.querySelector("input[placeholder='Enter Email Adreess']").value,
+              appointmentDate: document.getElementById('dat').value,
+              address: {
+                  area: document.querySelector("input[placeholder='Enter Area']").value,
+                  city: document.querySelector("input[placeholder='Enter City']").value,
+                  state: document.querySelector("input[placeholder='Enter State']").value,
+                  postalCode: document.querySelector("input[placeholder='Postal Code']").value
+              }
+          };
+
+          try {
+              const response = await fetch('http://localhost:3000/auth/book', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(bookingData)
+              });
+
+              const result = await response.json();
+
+              if (response.ok) {
+                  alert(result.message);
+              } else {
+                  alert(result.message || 'Failed to book slot.');
+              }
+          } catch (error) {
+              alert('An error occurred: ' + error.message);
+          }
+      });
+  });
+</script>
+
+    
+  </body>
+</html>
